@@ -1,0 +1,273 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #9AD2CB 0%, #D7EBBA 100%);
+  min-height: 100vh;
+  color: #472836;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+.header {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(71, 40, 54, 0.1);
+}
+
+.header h1 {
+  color: #472836;
+  font-size: 1.8rem;
+}
+
+.main-content {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #472836;
+}
+
+.hero-content h2 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+  color: #472836;
+  opacity: 0.8;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 4rem;
+}
+
+.cta-btn {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.cta-btn.primary {
+  background: #472836;
+  color: #FEFFBE;
+}
+
+.cta-btn.primary:hover {
+  background: #5a3946;
+  transform: translateY(-2px);
+}
+
+.cta-btn.secondary {
+  background: transparent;
+  color: #472836;
+  border: 2px solid #472836;
+}
+
+.cta-btn.secondary:hover {
+  background: #472836;
+  color: #FEFFBE;
+}
+
+.features-preview {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 1.5rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.feature span {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.feature p {
+  font-size: 1rem;
+  color: #472836;
+}
+
+.auth-page {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #472836;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-weight: 600;
+}
+
+.back-btn:hover {
+  opacity: 0.7;
+}
+
+.auth-container {
+  background: #FEFFBE;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(71, 40, 54, 0.2);
+  border: 2px solid #EBD494;
+}
+
+.auth-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #472836;
+}
+
+.name-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 2px solid #D7EBBA;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: white;
+  color: #472836;
+  transition: all 0.3s ease;
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: #9AD2CB;
+  box-shadow: 0 0 0 3px rgba(154, 210, 203, 0.3);
+}
+
+.auth-input::placeholder {
+  color: #9AD2CB;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 1rem;
+  background: #472836;
+  color: #FEFFBE;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.auth-button:hover {
+  background: #5a3946;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logout-btn {
+  padding: 0.5rem 1.5rem;
+  background: #472836;
+  color: #FEFFBE;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #5a3946;
+  transform: translateY(-1px);
+}
+
+.welcome-section {
+  background: #FEFFBE;
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(71, 40, 54, 0.1);
+  text-align: center;
+  border: 2px solid #EBD494;
+}
+
+.welcome-section h2 {
+  color: #472836;
+  margin-bottom: 1rem;
+}
+
+.welcome-section p {
+  color: #472836;
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.feature-card {
+  padding: 2rem;
+  background: #D7EBBA;
+  border-radius: 15px;
+  border: 2px solid #9AD2CB;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card h3 {
+  color: #472836;
+  margin-bottom: 1rem;
+}
+
+.feature-card p {
+  color: #472836;
+  margin: 0;
+  opacity: 0.8;
+}
