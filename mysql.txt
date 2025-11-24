@@ -1,4 +1,4 @@
-
+DROP DATABASE pcbuilder;
 CREATE DATABASE pcbuilder;
 
 USE pcbuilder;
@@ -9,8 +9,87 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     first_name VARCHAR(100),
     last_name VARCHAR(100),
+    role ENUM('user', 'admin') DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_email ON users(email);
+
+CREATE TABLE IF NOT EXISTS categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Таблиця товарів
+CREATE TABLE IF NOT EXISTS products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    image_url VARCHAR(500),
+    category_id INT,
+    stock_quantity INT DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+CREATE TABLE IF NOT EXISTS categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE IF NOT EXISTS products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    image_url VARCHAR(500),
+    category_id INT,
+    stock_quantity INT DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+INSERT IGNORE INTO categories (name, slug) VALUES 
+('Процесори', 'processors'),
+('Материнські плати', 'motherboards'),
+('Відеокарти', 'graphics-cards'),
+('Оперативна пам\'ять', 'memory'),
+('Накопичувачі', 'storage'),
+('Блоки живлення', 'power-supplies'),
+('Корпуси', 'cases'),
+('Охолодження', 'cooling');
+
+
+INSERT IGNORE INTO products (name, description, price, category_id, image_url, stock_quantity) VALUES 
+('AMD Ryzen 5 5600X', '6 ядер, 12 потоків, 3.7 GHz, 32 MB кеш', 8999, 1, '/images/cpu-amd-5600x.jpg', 15),
+('Intel Core i5-12400F', '6 ядер, 12 потоків, 2.5 GHz, 18 MB кеш', 7499, 1, '/images/cpu-intel-12400f.jpg', 20),
+('AMD Ryzen 7 5800X3D', '8 ядер, 16 потоків, 3.4 GHz, 96 MB кеш', 12999, 1, '/images/cpu-amd-5800x3d.jpg', 8),
+('ASUS ROG Strix B550-F Gaming', 'Socket AM4, PCIe 4.0, Wi-Fi 6', 5999, 2, '/images/mobo-asus-b550.jpg', 10),
+('Gigabyte B660M DS3H', 'Socket LGA1700, DDR4, 2x M.2', 4599, 2, '/images/mobo-gigabyte-b660.jpg', 8),
+('MSI MAG B550 TOMAHAWK', 'Socket AM4, PCIe 4.0, 2.5G LAN', 5299, 2, '/images/mobo-msi-b550.jpg', 12),
+('NVIDIA GeForce RTX 4060', '8GB GDDR6, DLSS 3, 3072 CUDA ядер', 15999, 3, '/images/gpu-rtx-4060.jpg', 5),
+('AMD Radeon RX 7600', '8GB GDDR6, 1080p Gaming, 32 CU', 12999, 3, '/images/gpu-rx-7600.jpg', 7),
+('NVIDIA GeForce RTX 4070', '12GB GDDR6X, DLSS 3, 5888 CUDA ядер', 24999, 3, '/images/gpu-rtx-4070.jpg', 3),
+('Corsair Vengeance LPX 16GB', 'DDR4 3200MHz, 2x8GB, CL16', 1999, 4, '/images/ram-corsair-16gb.jpg', 25),
+('Kingston FURY Beast 32GB', 'DDR5 5200MHz, 2x16GB, RGB', 3999, 4, '/images/ram-kingston-32gb.jpg', 15),
+('G.Skill Trident Z 16GB', 'DDR4 3600MHz, 2x8GB, CL18', 2299, 4, '/images/ram-gskill-16gb.jpg', 18),
+('Kingston NV2 1TB', 'NVMe PCIe 4.0, 3500/2100 MB/s', 2599, 5, '/images/ssd-kingston-1tb.jpg', 30),
+('Samsung 970 EVO Plus 500GB', 'NVMe PCIe 3.0, 3500/2300 MB/s', 2199, 5, '/images/ssd-samsung-500gb.jpg', 22),
+('Western Digital Blue 2TB', 'SATA III, 560/530 MB/s, 2.5"', 3299, 5, '/images/ssd-wd-2tb.jpg', 14),
+('Seasonic Focus GX-750', '750W, 80+ Gold, повномодульний', 4599, 6, '/images/psu-seasonic-750.jpg', 9),
+('be quiet! Pure Power 11 600W', '600W, 80+ Gold, напівмодульний', 3299, 6, '/images/psu-bequiet-600.jpg', 11),
+('NZXT H510 Flow', 'Mid-Tower, ATX, Tempered Glass', 3999, 7, '/images/case-nzxt-h510.jpg', 7),
+('Fractal Design Pop Air', 'Mid-Tower, RGB, 3x fans', 4299, 7, '/images/case-fractal-pop.jpg', 5),
+('Noctua NH-D15', 'Тип: повітряний, 2x вентилятори', 3299, 8, '/images/cooler-noctua-d15.jpg', 12),
+('Cooler Master Hyper 212', 'Тип: повітряний, 1x вентилятор', 899, 8, '/images/cooler-cm-212.jpg', 20);
