@@ -402,3 +402,65 @@ products-page {
   color: #472836;
   font-size: 1.2rem;
 }
+
+/* Стилі для Auth компонента */
+.auth-subtitle {
+  text-align: center;
+  color: #472836;
+  opacity: 0.7;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #EBD494;
+}
+
+.auth-footer p {
+  color: #472836;
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.auth-mode-hint {
+  color: #9AD2CB;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-mode-hint:hover {
+  text-decoration: underline;
+}
+
+/* Кастомні стилі для сповіщень */
+.Toastify__toast {
+  border-radius: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
+  box-shadow: 0 8px 25px rgba(71, 40, 54, 0.2);
+}
+
+.Toastify__toast--success {
+  background: #D7EBBA;
+  color: #472836;
+  border: 2px solid #9AD2CB;
+}
+
+.Toastify__toast--error {
+  background: #FEFFBE;
+  color: #472836;
+  border: 2px solid #EBD494;
+}
+
+.Toastify__progress-bar {
+  background: #472836;
+  opacity: 0.3;
+}
