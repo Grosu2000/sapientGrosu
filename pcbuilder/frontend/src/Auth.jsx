@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Auth = ({ mode, onLogin, onBack }) => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,8 @@ const Auth = ({ mode, onLogin, onBack }) => {
     firstName: '',
     lastName: ''
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -18,6 +21,7 @@ const Auth = ({ mode, onLogin, onBack }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     
     try {
       const url = `http://localhost:5000/api/auth/${mode}`;
@@ -26,21 +30,48 @@ const Auth = ({ mode, onLogin, onBack }) => {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       
-      alert(response.data.message);
-      onLogin(response.data.user);
+      toast.success(`🎉 ${response.data.message}`, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      
+
+      setTimeout(() => {
+        onLogin(response.data.user);
+      }, 1000);
+      
     } catch (error) {
-      alert(error.response?.data?.message || 'Сталася помилка');
+      toast.error(`❌ ${error.response?.data?.message || 'Сталася помилка'}`, {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="auth-page">
       <button onClick={onBack} className="back-btn">
-        ← Назад
+        ← Назад на головну
       </button>
       
       <div className="auth-container">
-        <h2>{mode === 'login' ? 'Вхід' : 'Реєстрація'}</h2>
+        <h2>{mode === 'login' ? '🔐 Вхід' : '📝 Реєстрація'}</h2>
+        <p className="auth-subtitle">
+          {mode === 'login' 
+            ? 'Увійдіть у свій акаунт' 
+            : 'Створіть новий акаунт'
+          }
+        </p>
         
         <form onSubmit={handleSubmit}>
           {mode === 'register' && (
@@ -53,6 +84,7 @@ const Auth = ({ mode, onLogin, onBack }) => {
                 onChange={handleChange}
                 required
                 className="auth-input"
+                disabled={loading}
               />
               <input
                 type="text"
@@ -62,6 +94,7 @@ const Auth = ({ mode, onLogin, onBack }) => {
                 onChange={handleChange}
                 required
                 className="auth-input"
+                disabled={loading}
               />
             </div>
           )}
@@ -69,27 +102,55 @@ const Auth = ({ mode, onLogin, onBack }) => {
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="📧 Ваш email"
             value={formData.email}
             onChange={handleChange}
             required
             className="auth-input"
+            disabled={loading}
           />
           
           <input
             type="password"
             name="password"
-            placeholder="Пароль"
+            placeholder="🔒 Пароль"
             value={formData.password}
             onChange={handleChange}
             required
             className="auth-input"
+            disabled={loading}
+            minLength="6"
           />
           
-          <button type="submit" className="auth-button">
-            {mode === 'login' ? 'Увійти' : 'Зареєструватися'}
+          <button 
+            type="submit" 
+            className="auth-button"
+            disabled={loading}
+          >
+            {loading ? (
+              <span>⏳ Завантаження...</span>
+            ) : (
+              <span>
+                {mode === 'login' ? '🚀 Увійти' : '✨ Зареєструватися'}
+              </span>
+            )}
           </button>
         </form>
+
+        <div className="auth-footer">
+          <p>
+            {mode === 'login' 
+              ? 'Ще не маєте акаунту? ' 
+              : 'Вже маєте акаунт? '
+            }
+            <span className="auth-mode-hint">
+              {mode === 'login' 
+                ? 'Створіть новий!' 
+                : 'Увійдіть!'
+              }
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   );
