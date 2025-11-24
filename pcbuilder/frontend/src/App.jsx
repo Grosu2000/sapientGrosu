@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import Auth from './Auth';
-import './App.css';
+import React, { useState } from "react";
+import Auth from "./Auth";
+import Products from "./Products";
+import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
   const [showAuth, setShowAuth] = useState(false);
-  const [authMode, setAuthMode] = useState('login');
+  const [authMode, setAuthMode] = useState("login");
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
     setShowAuth(false);
   };
@@ -20,13 +21,19 @@ function App() {
         <header className="header">
           <h1>PCBuilder 🛠️</h1>
           <div className="user-menu">
-            <span>Вітаємо, {user.firstName}!</span>
+            <span>
+              Вітаємо, {user.firstName}! {user.role === "admin" ? "👑" : ""}
+            </span>
+            {user.role === "admin" && (
+              <button className="admin-btn">Адмін панель</button>
+            )}
             <button onClick={handleLogout} className="logout-btn">
               Вийти
             </button>
           </div>
         </header>
         <main className="main-content">
+          <Products />
           <div className="welcome-section">
             <h2>Ласкаво просимо до конструктора ПК!</h2>
             <p>Тут ви зможете створити ідеальну збірку для вашого комп'ютера</p>
@@ -58,8 +65,8 @@ function App() {
 
       <main className="main-content">
         {showAuth ? (
-          <Auth 
-            mode={authMode} 
+          <Auth
+            mode={authMode}
             onLogin={setUser}
             onBack={() => setShowAuth(false)}
           />
@@ -67,23 +74,26 @@ function App() {
           <div className="hero-section">
             <div className="hero-content">
               <h2>Створюйте ідеальний ПК</h2>
-              <p>Професійний інструмент для підбору та перевірки сумісності компонентів</p>
-              
+              <p>
+                Професійний інструмент для підбору та перевірки сумісності
+                компонентів
+              </p>
+
               <div className="cta-buttons">
-                <button 
+                <button
                   onClick={() => {
                     setShowAuth(true);
-                    setAuthMode('register');
-                  }} 
+                    setAuthMode("register");
+                  }}
                   className="cta-btn primary"
                 >
                   Почати роботу
                 </button>
-                <button 
+                <button
                   onClick={() => {
                     setShowAuth(true);
-                    setAuthMode('login');
-                  }} 
+                    setAuthMode("login");
+                  }}
                   className="cta-btn secondary"
                 >
                   Вже маю акаунт
