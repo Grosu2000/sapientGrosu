@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Auth from "./Auth";
 import Products from "./Products";
+import AdminPanel from "./AdminPanel";
 import "./App.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,12 +10,15 @@ function App() {
   const [user, setUser] = useState(null);
   const [showAuth, setShowAuth] = useState(false);
   const [authMode, setAuthMode] = useState("login");
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
     setShowAuth(false);
+    setShowAdminPanel(false);
+    toast.info("👋 До побачення!");
   };
 
   if (user) {
@@ -27,34 +31,47 @@ function App() {
               Вітаємо, {user.firstName}! {user.role === "admin" ? "👑" : ""}
             </span>
             {user.role === "admin" && (
-              <button className="admin-btn">Адмін панель</button>
+              <button 
+                className="admin-btn"
+                onClick={() => setShowAdminPanel(!showAdminPanel)}
+              >
+                {showAdminPanel ? '← До товарів' : '👑 Адмін панель'}
+              </button>
             )}
             <button onClick={handleLogout} className="logout-btn">
               Вийти
             </button>
           </div>
         </header>
+
         <main className="main-content">
-          <Products />
-          <div className="welcome-section">
-            <h2>Ласкаво просимо до конструктора ПК!</h2>
-            <p>Тут ви зможете створити ідеальну збірку для вашого комп'ютера</p>
-            <div className="features">
-              <div className="feature-card">
-                <h3>🖥️ Конфігуратор</h3>
-                <p>Збирайте ПК з сумісних компонентів</p>
+          {showAdminPanel ? (
+            <AdminPanel />
+          ) : (
+            <>
+              <Products />
+              <div className="welcome-section">
+                <h2>Ласкаво просимо до конструктора ПК!</h2>
+                <p>Тут ви зможете створити ідеальну збірку для вашого комп'ютера</p>
+                <div className="features">
+                  <div className="feature-card">
+                    <h3>🖥️ Конфігуратор</h3>
+                    <p>Збирайте ПК з сумісних компонентів</p>
+                  </div>
+                  <div className="feature-card">
+                    <h3>✅ Перевірка сумісності</h3>
+                    <p>Автоматична перевірка всіх компонентів</p>
+                  </div>
+                  <div className="feature-card">
+                    <h3>💾 Збереження збірок</h3>
+                    <p>Зберігайте ваші улюблені конфігурації</p>
+                  </div>
+                </div>
               </div>
-              <div className="feature-card">
-                <h3>✅ Перевірка сумісності</h3>
-                <p>Автоматична перевірка всіх компонентів</p>
-              </div>
-              <div className="feature-card">
-                <h3>💾 Збереження збірок</h3>
-                <p>Зберігайте ваші улюблені конфігурації</p>
-              </div>
-            </div>
-          </div>
+            </>
+          )}
         </main>
+
         <ToastContainer 
           position="top-right"
           autoClose={3000}
@@ -132,6 +149,7 @@ function App() {
           </div>
         )}
       </main>
+
       <ToastContainer 
         position="top-right"
         autoClose={3000}
