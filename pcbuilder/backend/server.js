@@ -9,7 +9,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root', 
@@ -23,11 +22,11 @@ const getConnection = async () => {
 
 getConnection()
     .then(conn => {
-        console.log('✅ Підключено до MySQL');
+        console.log('Підключено до MySQL');
         conn.end();
     })
     .catch(err => {
-        console.error('❌ Помилка підключення до MySQL:', err.message);
+        console.error('Помилка підключення до MySQL:', err.message);
     });
 
 const authMiddleware = (req, res, next) => {
@@ -255,7 +254,6 @@ app.get('/api/categories', async (req, res) => {
   }
 });
 
-
 app.get('/api/admin/stats', authMiddleware, adminMiddleware, async (req, res) => {
   let connection;
   try {
@@ -386,5 +384,5 @@ app.get('/api/admin/dashboard', authMiddleware, adminMiddleware, (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Сервер запущено на порті ${PORT}`);
+  console.log(`Сервер запущено на порті ${PORT}`);
 });
