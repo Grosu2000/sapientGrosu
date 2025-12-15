@@ -86,7 +86,7 @@ const SearchFilters = ({ onProductsUpdate }) => {
       </div>
 
       <div className="filters-grid">
-        {/* Пошук по назві */}
+        {}
         <div className="filter-group">
           <label>Пошук:</label>
           <input
@@ -98,7 +98,7 @@ const SearchFilters = ({ onProductsUpdate }) => {
           />
         </div>
 
-        {/* Фільтр по категорії */}
+        {}
         <div className="filter-group">
           <label>Категорія:</label>
           <select
@@ -115,7 +115,7 @@ const SearchFilters = ({ onProductsUpdate }) => {
           </select>
         </div>
 
-        {/* Фільтр по бренду */}
+        {}
         <div className="filter-group">
           <label>Бренд:</label>
           <select
@@ -132,7 +132,7 @@ const SearchFilters = ({ onProductsUpdate }) => {
           </select>
         </div>
 
-        {/* Фільтр по ціні */}
+        {}
         <div className="filter-group">
           <label>Ціна:</label>
           <div className="price-range">
@@ -154,7 +154,7 @@ const SearchFilters = ({ onProductsUpdate }) => {
           </div>
         </div>
 
-        {/* Сортування */}
+        {}
         <div className="filter-group">
           <label>Сортування:</label>
           <select

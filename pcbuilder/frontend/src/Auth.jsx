@@ -1,36 +1,43 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const Auth = ({ mode, onLogin, onBack }) => {
+const Auth = ({ onLogin }) => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: ''
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
   });
 
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState("login");
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
       const url = `http://localhost:5000/api/auth/${mode}`;
-      const response = await axios.post(url, formData);
-      
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      
-      toast.success(`🎉 ${response.data.message}`, {
+
+      const requestData =
+        mode === "register"
+          ? formData
+          : { email: formData.email, password: formData.password };
+
+      const result = await axios.post(url, requestData);
+
+      localStorage.setItem("token", result.data.token);
+      localStorage.setItem("user", JSON.stringify(result.data.user));
+
+      toast.success(`🎉 ${result.data.message}`, {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: false,
@@ -38,14 +45,19 @@ const Auth = ({ mode, onLogin, onBack }) => {
         pauseOnHover: true,
         draggable: true,
       });
-      
 
       setTimeout(() => {
-        onLogin(response.data.user);
+        onLogin(result.data.user);
       }, 1000);
-      
     } catch (error) {
-      toast.error(`❌ ${error.response?.data?.message || 'Сталася помилка'}`, {
+      console.error("Помилка авторизації:", error);
+
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Сталася невідома помилка";
+
+      toast.error(`❌ ${errorMessage}`, {
         position: "top-center",
         autoClose: 4000,
         hideProgressBar: false,
@@ -58,23 +70,26 @@ const Auth = ({ mode, onLogin, onBack }) => {
     }
   };
 
+  const toggleMode = () => {
+    setMode(mode === "login" ? "register" : "login");
+  };
+
   return (
     <div className="auth-page">
-      <button onClick={onBack} className="back-btn">
+      <button onClick={() => (window.location.href = "/")} className="back-btn">
         ← Назад на головну
       </button>
-      
+
       <div className="auth-container">
-        <h2>{mode === 'login' ? '🔐 Вхід' : '📝 Реєстрація'}</h2>
+        <h2>{mode === "login" ? "🔐 Вхід" : "📝 Реєстрація"}</h2>
         <p className="auth-subtitle">
-          {mode === 'login' 
-            ? 'Увійдіть у свій акаунт' 
-            : 'Створіть новий акаунт'
-          }
+          {mode === "login"
+            ? "Увійдіть у свій акаунт"
+            : "Створіть новий акаунт"}
         </p>
-        
+
         <form onSubmit={handleSubmit}>
-          {mode === 'register' && (
+          {mode === "register" && (
             <div className="name-fields">
               <input
                 type="text"
@@ -82,7 +97,7 @@ const Auth = ({ mode, onLogin, onBack }) => {
                 placeholder="Ім'я"
                 value={formData.firstName}
                 onChange={handleChange}
-                required
+                required={mode === "register"}
                 className="auth-input"
                 disabled={loading}
               />
@@ -92,13 +107,13 @@ const Auth = ({ mode, onLogin, onBack }) => {
                 placeholder="Прізвище"
                 value={formData.lastName}
                 onChange={handleChange}
-                required
+                required={mode === "register"}
                 className="auth-input"
                 disabled={loading}
               />
             </div>
           )}
-          
+
           <input
             type="email"
             name="email"
@@ -109,7 +124,7 @@ const Auth = ({ mode, onLogin, onBack }) => {
             className="auth-input"
             disabled={loading}
           />
-          
+
           <input
             type="password"
             name="password"
@@ -121,36 +136,17 @@ const Auth = ({ mode, onLogin, onBack }) => {
             disabled={loading}
             minLength="6"
           />
-          
-          <button 
-            type="submit" 
-            className="auth-button"
-            disabled={loading}
-          >
+
+          <button type="submit" className="auth-button" disabled={loading}>
             {loading ? (
               <span>⏳ Завантаження...</span>
             ) : (
               <span>
-                {mode === 'login' ? '🚀 Увійти' : '✨ Зареєструватися'}
+                {mode === "login" ? "🚀 Увійти" : "✨ Зареєструватися"}
               </span>
             )}
           </button>
         </form>
-
-        <div className="auth-footer">
-          <p>
-            {mode === 'login' 
-              ? 'Ще не маєте акаунту? ' 
-              : 'Вже маєте акаунт? '
-            }
-            <span className="auth-mode-hint">
-              {mode === 'login' 
-                ? 'Створіть новий!' 
-                : 'Увійдіть!'
-              }
-            </span>
-          </p>
-        </div>
       </div>
     </div>
   );
